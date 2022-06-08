@@ -4,7 +4,7 @@ import LoginView from "../views/LoginView.vue";
 import PageNotFound from "../views/404.vue";
 import Profile from "@/components/Profile.vue";
 import Store from "@/components/Store.vue";
-import Games from "@/components/Games.vue";
+import Games from "@/components/GamesDetails.vue";
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [

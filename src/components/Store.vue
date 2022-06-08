@@ -1,4 +1,35 @@
-<script setup></script>
+<script setup>
+	import { reactive } from "vue";
+	//import gamesdb from "@/assets/db.json";
+	const genreList = ["All", "Action", "Adventure" ,"Indie", "Multiplayer", "Racing", "RPG", "Simulation", "Strategy", "Sport", "VR"];
+	const gamesdb = reactive([
+	{
+		"background": "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
+		"title": "Hollow Knight",
+		"genre": "Indie",
+		"price": "$ 9.99"
+	},
+	{
+		"background": "https://media.rawg.io/media/crop/600/400/games/b72/b7233d5d5b1e75e86bb860ccc7aeca85.jpg",
+		"title": "Apex Legends",
+		"genre": "Shooter",
+		"price": "Free"
+	},
+	{
+		"background": "https://media.rawg.io/media/crop/600/400/games/d1f/d1f872a48286b6b751670817d5c1e1be.jpg",
+		"title": "Transistor",
+		"genre": "RPG",
+		"price": "$ 12.99"
+	},
+	{
+		"background": "https://media.rawg.io/media/crop/600/400/games/713/713269608dc8f2f40f5a670a14b2de94.jpg",
+		"title": "Stardew Valley",
+		"genre": "Indie",
+		"price": "$ 7.99"
+	}
+]
+);
+</script>
 
 <template>
 	<div class="mainPanel">
@@ -8,65 +39,22 @@
 				<input type="search" name="searchField" id="search" placeholder="What are you looking for?" />
 			</div>
 			<div class="genreList">
-				<a class="genre" href="#">All</a>
-				<a class="genre" href="#">Action</a>
-				<a class="genre" href="#">Adventure</a>
-				<a class="genre" href="#">Indie</a>
-				<a class="genre" href="#">Multiplayer</a>
-				<a class="genre" href="#">Racing</a>
-				<a class="genre" href="#">RPG</a>
-				<a class="genre" href="#">Simulation</a>
-				<a class="genre" href="#">Strategy</a>
-				<a class="genre" href="#">Sport</a>
-				<a class="genre" href="#">VR</a>
+				<a class="genre" href="#" v-for="genre in genreList" :key="genre">{{genre}}</a>
 			</div>
 		</div>
 		<div class="store">
 			<!-- <h3>Highlight & News</h3> -->
 			<h3>What's hot</h3>
 			<div class="gamesGrid">
-				<div class="games" style="--aspect-ratio: 3/2; background-image: url(https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg)">
-					<div class="gamesDetails">
-						<span class="gamesTitle">Hollow Knight</span>
-						<span class="gamesGenre">Indie</span>
-						<span class="gamesPrice">$ 9.99</span>
+				<template v-for="game in gamesdb" :game="game" :key="game.title">
+					<div class="games" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.background + ')' }" @click="$router.push('/games')">
+						<div class="gamesDetails">
+							<span class="gamesTitle">{{ game.title }}</span>
+							<span class="gamesGenre">{{ game.genre }}</span>
+							<span class="gamesPrice">{{ game.price }}</span>
+						</div>
 					</div>
-				</div>
-				<div class="games" style="--aspect-ratio: 3/2; background-image: url(https://media.rawg.io/media/crop/600/400/games/b72/b7233d5d5b1e75e86bb860ccc7aeca85.jpg)">
-					<div class="gamesDetails">
-						<span class="gamesTitle">Apex Legends</span>
-						<span class="gamesGenre">Shooter</span>
-						<span class="gamesPrice">Free</span>
-					</div>
-				</div>
-				<div class="games" style="--aspect-ratio: 3/2; background-image: url(https://media.rawg.io/media/crop/600/400/games/713/713269608dc8f2f40f5a670a14b2de94.jpg)">
-					<div class="gamesDetails">
-						<span class="gamesTitle">Stardew Valey</span>
-						<span class="gamesGenre">Indie</span>
-						<span class="gamesPrice">$ 7.99</span>
-					</div>
-				</div>
-				<div class="games" style="--aspect-ratio: 3/2; background-image: url(https://media.rawg.io/media/crop/600/400/games/d1f/d1f872a48286b6b751670817d5c1e1be.jpg)" @click="$router.push('/games')">
-					<div class="gamesDetails">
-						<span class="gamesTitle">Transistor</span>
-						<span class="gamesGenre">RPG</span>
-						<span class="gamesPrice">$ 12.99</span>
-					</div>
-				</div>
-				<div class="games" style="--aspect-ratio: 3/2; background-image: url(https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg)">
-					<div class="gamesDetails">
-						<span class="gamesTitle">Hollow Knight</span>
-						<span class="gamesGenre">Indie</span>
-						<span class="gamesPrice">$ 9.99</span>
-					</div>
-				</div>
-				<div class="games" style="--aspect-ratio: 3/2; background-image: url(https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg)">
-					<div class="gamesDetails">
-						<span class="gamesTitle">Hollow Knight</span>
-						<span class="gamesGenre">Indie</span>
-						<span class="gamesPrice">$ 9.99</span>
-					</div>
-				</div>
+				</template>
 			</div>
 		</div>
 	</div>
