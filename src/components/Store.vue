@@ -1,34 +1,40 @@
 <script setup>
-	import { reactive } from "vue";
+	import { onMounted, reactive } from "vue";
 	//import gamesdb from "@/assets/db.json";
-	const genreList = ["All", "Action", "Adventure" ,"Indie", "Multiplayer", "Racing", "RPG", "Simulation", "Strategy", "Sport", "VR"];
+	const genreList = ["All", "Action", "Adventure", "Indie", "Multiplayer", "Racing", "RPG", "Simulation", "Strategy", "Sport", "VR"];
 	const gamesdb = reactive([
-	{
-		"background": "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
-		"title": "Hollow Knight",
-		"genre": "Indie",
-		"price": "$ 9.99"
-	},
-	{
-		"background": "https://media.rawg.io/media/crop/600/400/games/b72/b7233d5d5b1e75e86bb860ccc7aeca85.jpg",
-		"title": "Apex Legends",
-		"genre": "Shooter",
-		"price": "Free"
-	},
-	{
-		"background": "https://media.rawg.io/media/crop/600/400/games/d1f/d1f872a48286b6b751670817d5c1e1be.jpg",
-		"title": "Transistor",
-		"genre": "RPG",
-		"price": "$ 12.99"
-	},
-	{
-		"background": "https://media.rawg.io/media/crop/600/400/games/713/713269608dc8f2f40f5a670a14b2de94.jpg",
-		"title": "Stardew Valley",
-		"genre": "Indie",
-		"price": "$ 7.99"
+		{
+			background: "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
+			title: "Hollow Knight",
+			genre: "Indie",
+			price: "$ 9.99",
+		},
+		{
+			background: "https://media.rawg.io/media/crop/600/400/games/b72/b7233d5d5b1e75e86bb860ccc7aeca85.jpg",
+			title: "Apex Legends",
+			genre: "Shooter",
+			price: "Free",
+		},
+		{
+			background: "https://media.rawg.io/media/crop/600/400/games/d1f/d1f872a48286b6b751670817d5c1e1be.jpg",
+			title: "Transistor",
+			genre: "RPG",
+			price: "$ 12.99",
+		},
+		{
+			background: "https://media.rawg.io/media/crop/600/400/games/713/713269608dc8f2f40f5a670a14b2de94.jpg",
+			title: "Stardew Valley",
+			genre: "Indie",
+			price: "$ 7.99",
+		},
+	]);
+	function changeActiveGenre(e) {
+		document.getElementById('activeGenre').setAttribute('id', '');
+		e.target.setAttribute('id', 'activeGenre');
 	}
-]
-);
+	onMounted(() => {
+		document.querySelector('.genreList a:first-child').setAttribute('id', 'activeGenre');
+	});
 </script>
 
 <template>
@@ -39,7 +45,7 @@
 				<input type="search" name="searchField" id="search" placeholder="What are you looking for?" />
 			</div>
 			<div class="genreList">
-				<a class="genre" href="#" v-for="genre in genreList" :key="genre">{{genre}}</a>
+				<a class="genre" href="#" v-for="genre in genreList" :key="genre" @click="changeActiveGenre()">{{ genre }}</a>
 			</div>
 		</div>
 		<div class="store">
@@ -118,7 +124,7 @@
 		text-decoration: none;
 		color: #d4d7e8;
 	}
-	.genre:focus {
+	#activeGenre {
 		color: #fff;
 		text-decoration: 3px underline #fe8383;
 		text-underline-offset: 10px;
@@ -153,7 +159,7 @@
 		bottom: 0;
 		height: 36%;
 		width: 100%;
-		background: rgba(33, 33, 33, 0.4);
+		background: rgba(33, 33, 33, 0.35);
 		border-radius: 0px 0px 10px 10px;
 		backdrop-filter: blur(10px);
 		opacity: 1;
@@ -161,6 +167,9 @@
 	}
 	.games:hover .gamesDetails {
 		opacity: 0;
+	}
+	.gamesDetails span {
+		text-shadow: 3px 3px 5px rgba(22, 22, 22, 0.55);
 	}
 	.gamesDetails .gamesTitle {
 		position: absolute;
