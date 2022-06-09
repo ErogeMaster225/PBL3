@@ -38,7 +38,7 @@
 		transition: all 0.4s cubic-bezier(1, 0.5, 0.8, 1);
 	}
 	.slide-fade-in-enter-from {
-		transform: translateX(80vh);
+		transform: translateX(80vw);
 		opacity: 0;
 	}
 	.slide-fade-in-leave-to {
@@ -52,7 +52,7 @@
 		transition: all 0.4s cubic-bezier(1, 0.5, 0.8, 1);
 	}
 	.slide-fade-out-leave-to {
-		transform: translateX(80vh);
+		transform: translateX(80vw);
 		opacity: 0;
 	}
 	.slide-fade-out-enter-from {
