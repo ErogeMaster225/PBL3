@@ -55,7 +55,7 @@
 		width: 50%;
 		color: #fff;
 		box-shadow: inset 0 0 45px 15px #000;
-		transition: all 0.5s ease-out;
+		transition: all 0.6s ease-out;
 		z-index: 1;
 	}
 	.artPanel .credits {
@@ -69,7 +69,7 @@
 		font-weight: 300;
 	}
 	.login-fade-enter-active {
-		transition: 0.5s opacity 0.5s cubic-bezier(1, 0.5, 0.8, 1), transform 0.6s ease-out;
+		transition: 0.5s opacity 0.5s cubic-bezier(1, 0.5, 0.8, 1), transform 0.7s ease-out;
 	}
 	.login-fade-leave-active {
 		transition: opacity 0.3s ease-in, transform 0.4s cubic-bezier(1, 0.5, 0.8, 1);
@@ -86,7 +86,7 @@
 		transition: opacity 0.3s ease-in, transform 0.4s cubic-bezier(1, 0.5, 0.8, 1);
 	}
 	.register-fade-enter-active {
-		transition: 0.5s opacity 0.5s cubic-bezier(1, 0.5, 0.8, 1), transform 0.6s ease-out;
+		transition: 0.5s opacity 0.5s cubic-bezier(1, 0.5, 0.8, 1), transform 0.7s ease-out;
 	}
 	.register-fade-leave-to {
 		transform: translateX(100px);

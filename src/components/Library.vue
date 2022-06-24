@@ -1,7 +1,6 @@
 <script setup>
 	import { onMounted, reactive } from "vue";
-	//import gamesdb from "@/assets/db.json";
-	const genreList = ["All", "Action", "Adventure", "Indie", "Multiplayer", "Racing", "RPG", "Simulation", "Strategy", "Sport", "VR"];
+	const genreList = ["Grid", "List", "Details"];
 	const gamesdb = reactive([
 		{
 			background: "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
@@ -10,22 +9,10 @@
 			price: "$ 9.99",
 		},
 		{
-			background: "https://media.rawg.io/media/crop/600/400/games/b72/b7233d5d5b1e75e86bb860ccc7aeca85.jpg",
-			title: "Apex Legends",
-			genre: "Shooter",
-			price: "Free",
-		},
-		{
 			background: "https://media.rawg.io/media/crop/600/400/games/d1f/d1f872a48286b6b751670817d5c1e1be.jpg",
 			title: "Transistor",
 			genre: "RPG",
 			price: "$ 12.99",
-		},
-		{
-			background: "https://media.rawg.io/media/crop/600/400/games/713/713269608dc8f2f40f5a670a14b2de94.jpg",
-			title: "Stardew Valley",
-			genre: "Indie",
-			price: "$ 7.99",
 		},
 		{
 			background: "https://images.igdb.com/igdb/image/upload/t_original/ar88z.jpg",
@@ -55,15 +42,11 @@
 			</div>
 		</div>
 		<div class="store">
-			<!-- <h3>Highlight & News</h3> -->
-			<h3>What's hot</h3>
-			<div class="gamesGrid">
+			<div class="libgamesGrid">
 				<template v-for="game in gamesdb" :game="game" :key="game.title">
-					<div class="games" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.background + ')' }" @click="$router.push('/games')">
-						<div class="gamesDetails">
-							<span class="gamesTitle">{{ game.title }}</span>
-							<span class="gamesGenre">{{ game.genre }}</span>
-							<span class="gamesPrice">{{ game.price }}</span>
+					<div class="libgames" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.background + ')' }" @click="$router.push('/games')">
+						<div class="libgamesDetails">
+							<span class="libgamesTitle">{{ game.title }}</span>
 						</div>
 					</div>
 				</template>
@@ -114,44 +97,23 @@
 		border: none;
 		outline: none;
 	}
-	.genreList {
-		display: flex;
-		text-decoration: none;
-		font-size: 11pt;
-		align-items: center;
-		margin-left: 20px;
-	}
-	.genre {
-		color: #9198c4;
-		padding: 10px 10px;
-		font-family: Roboto;
-	}
-	.genre:hover {
-		text-decoration: none;
-		color: #d4d7e8;
-	}
-	#activeGenre {
-		color: #fff;
-		text-decoration: 3px underline #fe8383;
-		text-underline-offset: 10px;
-	}
 	.store {
 		margin: 30px 30px 30px 0px;
 	}
-	.gamesGrid {
+	.libgamesGrid {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		grid-column-gap: 10px;
 		grid-row-gap: 20px;
 	}
-	.gamesGrid > [style^="--aspect-ratio"]::before {
+	.libgamesGrid > [style^="--aspect-ratio"]::before {
 		content: "";
 		display: inline-block;
 		width: 1px;
 		height: 0;
 		padding-bottom: calc(100% / (var(--aspect-ratio)) - 6px);
 	}
-	.games {
+	.libgames {
 		position: relative;
 		border-radius: 10px;
 		background-size: cover;
@@ -159,37 +121,28 @@
 		background-position: center;
 		cursor: pointer;
 	}
-	.gamesDetails {
+	.libgamesDetails {
 		font-size: 11pt;
+		font-family: Roboto;
 		position: absolute;
 		bottom: 0;
-		height: 36%;
+		height: 20%;
 		width: 100%;
-		background: rgba(33, 33, 33, 0.35);
+		background: rgba(22, 22, 22, 0.5);
 		border-radius: 0px 0px 10px 10px;
 		backdrop-filter: blur(10px);
 		opacity: 1;
 		transition: all 0.4s;
+		display: flex;
+		align-items: center;
 	}
-	.games:hover .gamesDetails {
+	.libgames:hover .libgamesDetails {
 		opacity: 0;
 	}
-	.gamesDetails span {
+	.libgamesDetails span {
 		text-shadow: 3px 3px 5px rgba(22, 22, 22, 0.55);
 	}
-	.gamesDetails .gamesTitle {
-		position: absolute;
-		top: 0.5em;
-		left: 0.75em;
-	}
-	.gamesDetails .gamesGenre {
-		position: absolute;
-		bottom: 0.5em;
-		left: 0.75em;
-	}
-	.gamesDetails .gamesPrice {
-		position: absolute;
-		bottom: 0.5em;
-		right: 0.75em;
+	.libgamesDetails .libgamesTitle {
+		margin-left: 15px;
 	}
 </style>

@@ -1,43 +1,52 @@
-<script setup></script>
+<script setup>
+	import { onMounted, reactive } from "vue";
+	const gamesdetails = reactive({
+		background: "https://images.igdb.com/igdb/image/upload/t_original/ar88z.jpg",
+		title: "Moonlighter",
+		genre: "Action, Adventure, Indie, RPG",
+		developer: "Digital Sun",
+		publisher: "11 bit studios",
+		releasedate: "May 29, 2018",
+		price: "$ 6.99",
+		rating: "4.8",
+		sypnosis: "During a long-passed archaeological excavation, a set of Gates were discovered. People quickly realized that these ancient passages lead to different realms and dimensions - providing brave and reckless adventurers with treasures beyond measure. Rynoka, a small commercial village, was founded near the excavation site providing refuge and a place for adventurers to sell their hard-earned riches. \n \n Moonlighter is an Action RPG with rogue-lite elements following the everyday routines of Will, an adventurous shopkeeper that dreams of becoming a hero.",
+	});
+</script>
 
 <template>
 	<div class="gamesPanel">
-		<div class="gamesBanner">
+		<div class="gamesBanner" :style="{ '--banner': 'url(' + gamesdetails.background + ')' }">
 			<div class="backButton" @click="$router.push('/')"><i class="fa-regular fa-arrow-left"></i> Go back to store</div>
-			<div class="gamesTitle">Moonlighter</div>
+			<div class="gamesTitle">{{ gamesdetails.title }}</div>
 			<div class="gamesDescription">Moonlighter is an Action RPG with rogue-lite elements following the everyday routines of Will, an adventurous shopkeeper that dreams of becoming a hero.</div>
-			<div class="buyButton">Buy for $19.99</div>
+			<div class="buyButton">Buy for {{ gamesdetails.price }}</div>
 			<div class="wishlistButton"><i class="fa-regular fa-heart"></i> Add to wishlist</div>
 		</div>
 		<div class="detailsDescription">
-			<div class="rating">RATING 4.8</div>
+			<div class="rating">RATING {{gamesdetails.rating}}</div>
 			<span>About the game</span>
 			<div class="about">
-				<div class="synopsis">
-					During a long-passed archaeological excavation, a set of Gates were discovered. People quickly realized that these ancient passages lead to different realms and dimensions - providing brave and reckless adventurers with treasures beyond measure. Rynoka, a small commercial
-					village, was founded near the excavation site providing refuge and a place for adventurers to sell their hard-earned riches. <br /><br />
-					Moonlighter is an Action RPG with rogue-lite elements following the everyday routines of Will, an adventurous shopkeeper that dreams of becoming a hero.
-				</div>
+				<div class="synopsis">{{ gamesdetails.sypnosis }}</div>
 				<table class="meta">
 					<tr>
 						<td>Genre:</td>
-						<td>Action, Adventure, Indie, RPG</td>
+						<td>{{ gamesdetails.genre }}</td>
 					</tr>
 					<tr>
 						<td>Developer:</td>
-						<td>Digital Sun</td>
+						<td>{{ gamesdetails.developer }}</td>
 					</tr>
 					<tr>
 						<td>Publisher:</td>
-						<td>11 bit studios</td>
+						<td>{{ gamesdetails.publisher }}</td>
 					</tr>
 					<tr>
 						<td>Release date:</td>
-						<td>May 29, 2018</td>
+						<td>{{ gamesdetails.releasedate }}</td>
 					</tr>
 					<tr>
 						<td>Website:</td>
-						<td><a target="_blank" href="http://www.moonlighterthegame.com">www.moonlighterthegame.com</a></td>
+						<td><a target="_blank" href="https://www.moonlighterthegame.com">www.moonlighterthegame.com</a></td>
 					</tr>
 				</table>
 			</div>
@@ -61,7 +70,7 @@
 		position: relative;
 		height: 600px;
 		width: calc(100% - 50px);
-		background-image: linear-gradient(-90deg, rgba(21, 25, 33, 0.3), hsla(222, 37%, 16%, 0.6)), url("https://images.igdb.com/igdb/image/upload/t_original/ar88z.jpg");
+		background-image: linear-gradient(-90deg, rgba(21, 25, 33, 0.3), hsla(222, 37%, 16%, 0.6)), var(--banner);
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
@@ -141,6 +150,7 @@
 		width: 30%;
 		color: #c7cbec;
 		text-align: left;
+		white-space: pre-line;
 	}
 	.detailsDescription .about .meta {
 		display: block;

@@ -33,7 +33,7 @@
 				<i class="fa-regular fa-gear fa-xl"></i>
 				<span>Settings</span>
 			</div>
-			<div class="navBarBtn" id="logOut" @click="$router.push('/404')">
+			<div class="navBarBtn" id="logOut" @click="$router.push('/auth/login')">
 				<i class="fa-regular fa-power-off fa-xl"></i>
 				<span>Log out</span>
 			</div>
