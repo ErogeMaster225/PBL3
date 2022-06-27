@@ -1,5 +1,39 @@
 <script setup>
 	import { onMounted, onUnmounted, onUpdated } from "vue";
+	import { useRouter, useRoute } from "vue-router";
+	const router = useRouter();
+	const registerRequest = (username, password) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Auth/register", {
+			method: "POST",
+			headers: {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ username: username, password: password }),
+		});
+		return response;
+	}
+	const register = () => {
+		let username = document.getElementById("username_field").value;
+		let password = document.getElementById("password_field").value;
+		let confirm = document.getElementById("confirm_password_field").value;
+		if(password == confirm) {
+			registerRequest(username, password)
+			.then((response) => {
+				if (response.ok) {
+					return response.text();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				console.log(data);
+				router.push("/auth/login");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		}
+	};
 	onMounted(() => {
 		document.querySelector(".artPanel").style.left = "50%";
 	});
@@ -21,10 +55,10 @@
 			</div>
 			<div class="registerField">
 				<label for="password_field">Confirm password</label><br />
-				<div class="inputbox"><input type="password" name="password" id="password_field" required placeholder="Password" /></div>
+				<div class="inputbox"><input type="password" name="confirm_password" id="confirm_password_field" required placeholder="Password" /></div>
 			</div>
 			<div class="registerBtn">
-				<button type="submit">
+				<button type="submit" @click.prevent="register()">
 					<span>Register</span>
 				</button>
 			</div>

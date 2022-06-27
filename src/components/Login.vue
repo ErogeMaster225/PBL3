@@ -1,4 +1,41 @@
-<script setup></script>
+<script setup>
+	import { onMounted, reactive } from "vue";
+	import { useRouter, useRoute } from "vue-router";
+	import { useUserStore } from "@/stores/userStore";
+	const store = useUserStore();
+	const router = useRouter();
+	const loginRequest = (username, password) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Auth/login", {
+			method: "POST",
+			headers: {
+				Accept: "text/plain",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ username: username, password: password }),
+		});
+		return response;
+	};
+	const login = () => {
+		let username = document.getElementById("username_field").value;
+		let password = document.getElementById("password_field").value;
+		loginRequest(username, password)
+			.then((response) => {
+				if (response.ok) {
+					return response.text();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				console.log(data);
+				store.username = username;
+				router.push("/");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+	onMounted(() => {});
+</script>
 <template>
 	<div class="loginPane">
 		<div class="loginTitle">Log In</div>
@@ -19,11 +56,11 @@
 				</label>
 			</div>
 			<div class="loginBtn">
-				<button type="submit">
+				<button type="submit" @click.prevent="login()">
 					<span>Log In</span>
 				</button>
 			</div>
-			<div class="signup">Don't have an account? <span class="signup-link" @click="$router.push('/auth/register')">Sign up</span></div>
+			<div class="signup">Don't have an account? <span class="signup-link" @click="router.push('/auth/register')">Sign up</span></div>
 		</form>
 	</div>
 </template>

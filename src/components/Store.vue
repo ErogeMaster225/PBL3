@@ -34,9 +34,9 @@
 			price: "$ 6.99",
 		},
 	]);
-	function changeActiveGenre(e) {
+	const changeActiveGenre = event => {
 		document.getElementById('activeGenre').setAttribute('id', '');
-		e.target.setAttribute('id', 'activeGenre');
+		event.target.setAttribute('id', 'activeGenre');
 	}
 	onMounted(() => {
 		document.querySelector('.genreList a:first-child').setAttribute('id', 'activeGenre');
@@ -51,7 +51,7 @@
 				<input type="search" name="searchField" id="search" placeholder="What are you looking for?" />
 			</div>
 			<div class="genreList">
-				<a class="genre" href="#" v-for="genre in genreList" :key="genre" @click="changeActiveGenre()">{{ genre }}</a>
+				<a class="genre" href="#" v-for="genre in genreList" :key="genre" @click="changeActiveGenre">{{ genre }}</a>
 			</div>
 		</div>
 		<div class="store">
