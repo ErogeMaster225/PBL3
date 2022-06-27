@@ -1,5 +1,6 @@
 <script setup>
 	import { useUserStore } from "@/stores/userStore";
+import { onMounted } from "vue";
 	import { useRouter, useRoute } from "vue-router";
 	const router = useRouter();
 	const store = useUserStore();
@@ -10,6 +11,34 @@
 	const logIn = () => {
 		router.push("/auth/login");
 	};
+	const getUserInfoRequest = (username, token) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/User/userHomepage?userName=" + username, {
+			headers: {
+				Accept: "text/plain",
+				Authorization: "bearer " + token,
+			},
+		});
+		return response;
+	}
+	const getUserInfo = () => {
+		getUserInfoRequest(store.username, store.token).then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				console.log(data);
+				store.balance = data.userWallet;
+				store.avatar = data.imageUri;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+	onMounted(() => {
+		getUserInfo();
+	})
 </script>
 
 <template>

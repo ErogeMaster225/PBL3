@@ -5,6 +5,7 @@ export const useUserStore = defineStore("user", {
 			username: "Guest",
 			balance: 0.00,
 			avatar: "https://osu.ppy.sh/images/layout/avatar-guest@2x.png",
+			token: "",
 		};
 	},
 	actions: () => {},

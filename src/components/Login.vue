@@ -26,7 +26,7 @@
 				throw new Error(response.statusText);
 			})
 			.then((data) => {
-				console.log(data);
+				store.token = data;
 				store.username = username;
 				router.push("/");
 			})
