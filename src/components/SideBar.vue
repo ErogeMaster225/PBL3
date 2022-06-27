@@ -1,4 +1,16 @@
-<script setup></script>
+<script setup>
+	import { useUserStore } from "@/stores/userStore";
+	import { useRouter, useRoute } from "vue-router";
+	const router = useRouter();
+	const store = useUserStore();
+	const logOut = () => {
+		store.$reset();
+		router.push("/");
+	};
+	const logIn = () => {
+		router.push("/auth/login");
+	};
+</script>
 
 <template>
 	<div class="navBar">
@@ -10,10 +22,10 @@
 			</div>
 		</div>
 		<div class="userDetails" @click="$router.push('/profile')">
-			<img src="/src/assets/images/Avatar.jpg" alt="" />
+			<img :src="store.avatar" alt="" />
 			<div class="details">
-				<div>SakuraFrost225</div>
-				<div>Level 31</div>
+				<div>{{ store.username }}</div>
+				<div>{{ "$" + store.balance.toFixed(2) }}</div>
 			</div>
 		</div>
 		<div class="navBtnWrapper">
@@ -33,9 +45,9 @@
 				<i class="fa-regular fa-gear fa-xl"></i>
 				<span>Settings</span>
 			</div>
-			<div class="navBarBtn" id="logOut" @click="$router.push('/auth/login')">
+			<div class="navBarBtn" id="logOut" @click="store.username == 'Guest' ? logIn() : logOut()">
 				<i class="fa-regular fa-power-off fa-xl"></i>
-				<span>Log out</span>
+				<span >{{ store.username == "Guest" ? "Log in" : "Log out" }}</span>
 			</div>
 		</div>
 	</div>

@@ -6,8 +6,10 @@
 			<div class="banner">
 				<i class="fa-regular fa-circle-check fa-2x" @click="$router.push('/404')"></i>
 			</div>
-			<div class="profileImg">
-				<img src="/src/assets/images/Avatar.jpg" alt="" />
+			<div class="profileImgWrapper">
+				<div class="profileImg">
+					<div class="editProfilePic"><i class="fa-solid fa-2x fa-paintbrush"></i></div>
+				</div>
 				<div class="profileTitle">
 					<div class="label">Profile</div>
 					<div class="labelDescription">Update your photo and personal details</div>
@@ -76,7 +78,7 @@
 	.fa-circle-check {
 		color: rgb(5, 194, 107);
 	}
-	.profileImg {
+	.profileImgWrapper {
 		position: relative;
 		margin-top: -55px;
 		padding-left: 50px;
@@ -84,8 +86,36 @@
 		line-height: 30px;
 		align-items: flex-end;
 	}
-	.profileImg .profileTitle {
-		font-family: 'Nunito Sans';
+	.profileImg {
+		position: inherit;
+		height: 150px;
+		width: 150px;
+		background-image: url(/src/assets/images/Avatar.jpg);
+		background-size: cover;
+		border-radius: 50%;
+	}
+	.profileImg .editProfilePic {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: transparent;
+		opacity: 0;
+		transition: all 0.2s ease-in;
+	}
+	.profileImg .editProfilePic:hover {
+		opacity: 1;
+	}
+	.profileImgWrapper .profileTitle {
+		font-family: "Nunito Sans";
 		padding-left: 30px;
 		padding-bottom: 15px;
 	}
@@ -94,11 +124,6 @@
 	}
 	.profileTitle .labelDescription {
 		font-size: small;
-	}
-	.profileImg img {
-		height: 150px;
-		width: 150px;
-		border-radius: 50%;
 	}
 	.profileEdit {
 		margin-top: 30px;

@@ -1,6 +1,6 @@
-<script setup>
+<!-- <script setup>
 	import { onMounted, reactive } from "vue";
-	const genreList = ["Grid", "List", "Details"];
+	const viewMode = ["Grid", "List", "Details"];
 	const gamesdb = reactive([
 		{
 			background: "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
@@ -21,12 +21,12 @@
 			price: "$ 6.99",
 		},
 	]);
-	function changeActiveGenre(e) {
-		document.getElementById('activeGenre').setAttribute('id', '');
-		e.target.setAttribute('id', 'activeGenre');
+	function changeViewMode(e) {
+		document.getElementById('activeMode').removeAttribute('id');
+		e.target.setAttribute('id', 'activeMode');
 	}
 	onMounted(() => {
-		document.querySelector('.genreList a:first-child').setAttribute('id', 'activeGenre');
+		document.querySelector('.viewMode a:first-child').setAttribute('id', 'activeMode');
 	});
 </script>
 
@@ -37,8 +37,8 @@
 				<div class="searchIcon"><i class="fa-light fa-magnifying-glass"></i></div>
 				<input type="search" name="searchField" id="search" placeholder="What are you looking for?" />
 			</div>
-			<div class="genreList">
-				<a class="genre" href="#" v-for="genre in genreList" :key="genre" @click="changeActiveGenre()">{{ genre }}</a>
+			<div class="viewMode">
+				<a class="mode" href="#" v-for="mode in viewMode" :key="mode" @click="changeViewMode()">{{ genre }}</a>
 			</div>
 		</div>
 		<div class="store">
@@ -100,6 +100,27 @@
 	.store {
 		margin: 30px 30px 30px 0px;
 	}
+	.viewMode {
+		display: flex;
+		text-decoration: none;
+		font-size: 11pt;
+		align-items: center;
+		margin-left: 20px;
+	}
+	.mode {
+		color: #9198c4;
+		padding: 10px 10px;
+		font-family: Roboto;
+	}
+	.mode:hover {
+		text-decoration: none;
+		color: #d4d7e8;
+	}
+	#activeMode {
+		color: #fff;
+		text-decoration: 3px underline #fe8383;
+		text-underline-offset: 10px;
+	}
 	.libgamesGrid {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
@@ -146,3 +167,4 @@
 		margin-left: 15px;
 	}
 </style>
+ -->
