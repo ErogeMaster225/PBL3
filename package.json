@@ -7,10 +7,12 @@
     "preview": "vite preview --port 5050"
   },
   "dependencies": {
+    "chart.js": "^3.8.0",
     "gsap": "^3.10.4",
     "pinia": "^2.0.14",
     "sass": "^1.51.0",
     "vue": "^3.2.33",
+    "vue-chartjs": "^4.1.1",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {
