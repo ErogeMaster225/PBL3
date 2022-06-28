@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import AdminView from "../views/AdminView.vue";
 import AuthView from "../views/AuthView.vue";
 import PageNotFound from "../views/404.vue";
 import Profile from "@/components/Profile.vue";
@@ -8,6 +9,9 @@ import Games from "@/components/GamesDetails.vue";
 import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 import Library from "@/components/Library.vue";
+import AdminDashboard from "@/components/Admin/AdminDashboard.vue";
+import AdminGameManager from "@/components/Admin/AdminGameManager.vue";
+import AdminUserManager from "@/components/Admin/AdminUserManager.vue";
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
@@ -18,8 +22,18 @@ const router = createRouter({
 			children: [
 				{ path: "", component: Store, meta: { transition: "slide-fade-out" } },
 				{ path: "profile", component: Profile, meta: { transition: "slide-fade-in" } },
-				{ path: "games", component: Games, meta: { transition: "slide-fade-in" } },
+				{ path: "games/:id", component: Games, meta: { transition: "slide-fade-in" } },
 				{ path: "library", component: Library, meta: { transition: "slide-fade-in" } },
+			],
+		},
+		{
+			path: "/admin",
+			name: "admin",
+			component: AdminView,
+			children: [
+				{ path: "", component: AdminDashboard, meta: { transition: "slide-fade-out" } },
+				{ path: "games", component: AdminGameManager, meta: { transition: "slide-fade-in" } },
+				{ path: "users", component: AdminUserManager, meta: { transition: "slide-fade-in" } },
 			],
 		},
 		{
