@@ -28,7 +28,7 @@
 			.then((data) => {
 				store.token = data;
 				store.username = username;
-				router.push("/");
+				store.username == 'admin' ? router.push("/admin") : router.push("/");
 			})
 			.catch((err) => {
 				console.log(err);

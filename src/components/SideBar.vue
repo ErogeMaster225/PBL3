@@ -66,7 +66,7 @@ import { onMounted } from "vue";
 				<i class="fa-regular fa-store fa-xl"></i>
 				<span>Store</span>
 			</div>
-			<div class="navBarBtn" @click="$router.push('/404')">
+			<div class="navBarBtn" @click="store.username == 'Guest' ? $router.push('/auth/login') : $router.push('/library')">
 				<i class="fa-regular fa-trophy fa-xl"></i>
 				<span>Library</span>
 			</div>
