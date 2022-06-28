@@ -1,5 +1,8 @@
 <script setup>
 	import { onMounted, reactive } from "vue";
+	import { useRouter, useRoute } from "vue-router";
+	const router = useRouter();
+	const route = useRoute();
 	const gamesdetails = reactive({
 		background: "https://images.igdb.com/igdb/image/upload/t_original/ar88z.jpg",
 		title: "Moonlighter",
@@ -11,6 +14,7 @@
 		rating: "4.8",
 		sypnosis: "During a long-passed archaeological excavation, a set of Gates were discovered. People quickly realized that these ancient passages lead to different realms and dimensions - providing brave and reckless adventurers with treasures beyond measure. Rynoka, a small commercial village, was founded near the excavation site providing refuge and a place for adventurers to sell their hard-earned riches. \n \n Moonlighter is an Action RPG with rogue-lite elements following the everyday routines of Will, an adventurous shopkeeper that dreams of becoming a hero.",
 	});
+	//const gamesid = route.params.id;
 </script>
 
 <template>
