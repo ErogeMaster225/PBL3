@@ -1,13 +1,43 @@
-<script setup></script>
+<script setup>
+	import { useUserStore } from "../stores/userStore";
+	const store = useUserStore();
+	const profileUpdateRequest = (username, dob, newemail, newphone) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/User/Information", {
+			method: "POST",
+			headers: {
+				Accept: "text/plain",
+				Authorization: "Bearer " + store.token,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ userName: username, dateOfBirth: dob, email: newemail, phone: newphone }),
+		});
+	};
+
+	const profileUpdate = () => {
+		let dob = document.getElementById("phone_input").value;
+		let email = document.getElementById("email_input").value;
+		let phone = document.getElementById("phone_input").value;
+		profileUpdateRequest(store.username, dob, email, phone).then((response) => {
+			if (response.ok) {
+				return response.json();
+			}
+			throw new Error(response.statusText);
+		}).then(data => {
+			store.dob = dob;
+			store.email = email;
+			store.phone = phone;
+		});
+	};
+</script>
 
 <template>
 	<div class="profilePanel">
 		<div class="header">
 			<div class="banner">
-				<i class="fa-regular fa-circle-check fa-2x" @click="$router.push('/404')"></i>
+				<i class="fa-regular fa-circle-check fa-2x" @click="profileUpdate()"></i>
 			</div>
 			<div class="profileImgWrapper">
-				<div class="profileImg">
+				<div class="profileImg" :style="{ '--avatar': 'url(' + store.avatar + ')' }">
 					<div class="editProfilePic"><i class="fa-solid fa-2x fa-paintbrush"></i></div>
 				</div>
 				<div class="profileTitle">
@@ -20,29 +50,29 @@
 			<div class="editColumn">
 				<div class="profileEditGroup">
 					<span>username</span>
-					<div class="profileEditEntry">SakuraFrost225</div>
+					<div class="profileEditEntry">{{ store.username }}</div>
 				</div>
 				<div class="profileEditGroup">
 					<span>current password</span>
-					<input type="password" required />
+					<input id="password_input" type="password" required />
 				</div>
 				<div class="profileEditGroup">
 					<span>new password</span>
-					<input type="password" required />
+					<input id="confirm_password_input" type="password" required />
 				</div>
 			</div>
 			<div class="editColumn">
 				<div class="profileEditGroup">
 					<span>email</span>
-					<input type="text" required />
+					<input id="email_input" type="text" required :placeholder="store.email" />
 				</div>
 				<div class="profileEditGroup">
 					<span>phone number</span>
-					<input type="text" required />
+					<input id="phone_input" type="text" required :placeholder="store.phone" />
 				</div>
 				<div class="profileEditGroup">
 					<span>DOB</span>
-					<input type="date" required />
+					<input id="date_input" type="date" required />
 				</div>
 			</div>
 		</div>
@@ -90,7 +120,7 @@
 		position: inherit;
 		height: 150px;
 		width: 150px;
-		background-image: url(/src/assets/images/Avatar.jpg);
+		background-image: var(--avatar);
 		background-size: cover;
 		border-radius: 50%;
 	}

@@ -1,6 +1,6 @@
 <script setup>
 	import { useUserStore } from "@/stores/userStore";
-import { onMounted } from "vue";
+	import { onMounted } from "vue";
 	import { useRouter, useRoute } from "vue-router";
 	const router = useRouter();
 	const store = useUserStore();
@@ -19,26 +19,29 @@ import { onMounted } from "vue";
 			},
 		});
 		return response;
-	}
+	};
 	const getUserInfo = () => {
-		getUserInfoRequest(store.username, store.token).then((response) => {
+		getUserInfoRequest(store.username, store.token)
+			.then((response) => {
 				if (response.ok) {
 					return response.json();
 				}
 				throw new Error(response.statusText);
 			})
 			.then((data) => {
-				console.log(data);
 				store.balance = data.userWallet;
-				store.avatar = data.imageUri;
+				store.email = data.email;
+				store.dob = data.dateOfBirth;
+				store.phone = data.phone;
+				if (data.imageUri != "https://vaporwavegameimage.blob.core.windows.net/images") store.avatar = data.imageUri;
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}
+	};
 	onMounted(() => {
 		getUserInfo();
-	})
+	});
 </script>
 
 <template>
@@ -76,7 +79,7 @@ import { onMounted } from "vue";
 			</div>
 			<div class="navBarBtn" id="logOut" @click="store.username == 'Guest' ? logIn() : logOut()">
 				<i class="fa-regular fa-power-off fa-xl"></i>
-				<span >{{ store.username == "Guest" ? "Log in" : "Log out" }}</span>
+				<span>{{ store.username == "Guest" ? "Log in" : "Log out" }}</span>
 			</div>
 		</div>
 	</div>
