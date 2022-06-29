@@ -9,6 +9,7 @@ export const useUserStore = defineStore("user", {
 			dob: "",
 			email: "",
 			phone: "",
+			userlist: [],
 		};
 	},
 	actions: () => {},

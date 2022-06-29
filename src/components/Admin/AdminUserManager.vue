@@ -1,5 +1,35 @@
 <script setup>
 	import { onMounted, reactive } from "vue";
+	import { useUserStore } from "@/stores/userStore";
+	import UserCard from "@/components/Admin/AdminUserCard.vue";
+	const store = useUserStore();
+	const userListRequest = () => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/User/getAllUser", {
+			headers: {
+				Accept: "text/plain",
+				Authorization: "Bearer " + store.token,
+			},
+		});
+		return response;
+	};
+	const getUserList = () => {
+		userListRequest()
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				store.userlist = data;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+	onMounted(() => {
+		getUserList();
+	})
 </script>
 
 <template>
@@ -12,105 +42,60 @@
 		</div>
 		<div class="store">
 			<h3>Users</h3>
-			<h6>39 users</h6>
-			<table class="meta">
+			<h6>{{ store.userlist.length }} users</h6>
+			<UserCard></UserCard>
+			<!-- <table class="meta">
 				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
+					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
 					<td>SakuraFrost225</td>
 					<td>nguyentrongsang1234@gmail.com</td>
 					<td>(+84) 974035452</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
+					<td>
+						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
+					</td>
 					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
 				</tr>
 				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
+					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
 					<td>Emo Kid</td>
 					<td>emokid@gmail.com</td>
 					<td>(+84) 985249331</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
+					<td>
+						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
+					</td>
 					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
 				</tr>
 				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
+					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
 					<td>C91Huyhehe</td>
 					<td>huyhehec91@gmail.com</td>
 					<td>(+84) 394425937</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
+					<td>
+						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
+					</td>
 					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
 				</tr>
 				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
+					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
 					<td>HitoriHellen</td>
 					<td>HitoriHellen@gmail.com</td>
 					<td>(+84) 369475518</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
+					<td>
+						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
+					</td>
 					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
 				</tr>
 				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
+					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
 					<td>SakuraFrost225</td>
 					<td>nguyentrongsang1234@gmail.com</td>
 					<td>(+84) 974035452</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
+					<td>
+						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
+					</td>
 					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
 				</tr>
-				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
-					<td>Emo Kid</td>
-					<td>emokid@gmail.com</td>
-					<td>(+84) 985249331</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
-					<td>C91Huyhehe</td>
-					<td>huyhehec91@gmail.com</td>
-					<td>(+84) 394425937</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
-					<td>HitoriHellen</td>
-					<td>HitoriHellen@gmail.com</td>
-					<td>(+84) 369475518</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
-					<td>SakuraFrost225</td>
-					<td>nguyentrongsang1234@gmail.com</td>
-					<td>(+84) 974035452</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
-					<td>Emo Kid</td>
-					<td>emokid@gmail.com</td>
-					<td>(+84) 985249331</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
-					<td>C91Huyhehe</td>
-					<td>huyhehec91@gmail.com</td>
-					<td>(+84) 394425937</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="@/assets/images/Avatar.jpg" /></td>
-					<td>HitoriHellen</td>
-					<td>HitoriHellen@gmail.com</td>
-					<td>(+84) 369475518</td>
-					<td><div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div></td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-			</table>
+			</table> -->
 		</div>
 	</div>
 </template>
@@ -159,52 +144,5 @@
 	}
 	.store {
 		margin: 30px 30px 30px 0px;
-	}
-	.meta {
-		display: block;
-		margin-top: 30px;
-		font-size: 10pt;
-		font-weight: 400;
-		color: #c7cbec;
-		text-align: left;
-	}
-	.meta tr {
-		height: 80px;
-		vertical-align: center;
-	}
-	.meta tr td:first-child {
-		width: 75px;
-	}
-	.meta tr td:nth-child(2) {
-		width: 175px;
-	}
-	.meta tr td:nth-child(3) {
-		width: 325px;
-	}
-	.meta tr td:nth-child(4) {
-		width: 255px;
-	}
-	.meta tr td:nth-child(5) {
-		width: 245px;
-	}
-	.borderWrap {
-		display: inline-block;
-		border-radius: 5px;
-		outline: #c7cbec 2px solid;
-		padding: 5px 10px;
-		width: auto;
-	}
-	.meta tr td:last-child,
-	td a,
-	a:hover {
-		color: rgb(220, 228, 236);
-	}
-	td img {
-		height: 50px;
-		width: 50px;
-		border-radius: 50%;
-	}
-	.fa-circle-small {
-		color: #30d18d;
 	}
 </style>
