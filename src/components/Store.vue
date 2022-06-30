@@ -5,12 +5,31 @@
 	const gamestore = useGamesStore();
 	const genreList = ["All", "Action", "Adventure", "Indie", "Multiplayer", "Racing", "RPG", "Simulation", "Strategy", "Sport", "VR"];
 	const changeActiveGenre = (event) => {
-		document.getElementById("activeGenre").setAttribute("id", "");
+		if (document.getElementById("activeGenre")) document.getElementById("activeGenre").setAttribute("id", "");
 		event.target.setAttribute("id", "activeGenre");
+		console.log(event.target.textContent);
+		getGamesRequest(event.target.textContent)
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				gamestore.gamesList = data;
+			});
+	};
+	const getGamesRequest = (genre) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Game/" + genre, {
+			headers: {
+				Accept: "text/plain",
+			},
+		});
+		return response;
 	};
 	onMounted(() => {
 		document.querySelector(".genreList a:first-child").setAttribute("id", "activeGenre");
-		gamestore.gamesList = reactive([
+		/* gamestore.gamesList = reactive([
 			{
 				background: "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
 				title: "Hollow Knight",
@@ -41,7 +60,17 @@
 				genre: "Indie",
 				price: "$ 6.99",
 			},
-		]);
+		]); */
+		getGamesRequest("All")
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				gamestore.gamesList = data;
+			});
 	});
 </script>
 <template>
@@ -49,7 +78,7 @@
 		<div class="searchBar">
 			<div class="searchBox">
 				<div class="searchIcon"><i class="fa-light fa-magnifying-glass"></i></div>
-				<input type="search" name="searchField" id="search" placeholder="What are you looking for?"/>
+				<input type="search" name="searchField" id="search" placeholder="What are you looking for?" />
 			</div>
 			<div class="genreList">
 				<a class="genre" href="#" v-for="genre in genreList" :key="genre" @click="changeActiveGenre">{{ genre }}</a>

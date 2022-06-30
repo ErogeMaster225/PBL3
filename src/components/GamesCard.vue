@@ -4,11 +4,11 @@
 </script>
 <template>
 	<TransitionGroup class="gamesGrid" tag="div" name="card-slide" :style="{ '--total': gamestore.gamesList.length }">
-		<div v-for="(game, index) in gamestore.gamesList" :key="index" class="games" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.background + ')', '--index': index }" @click="$router.push('/games/' + index)">
+		<div v-for="(game, index) in gamestore.gamesList" :key="index" class="games" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.gameImageUrl + ')', '--index': index }" @click="$router.push('/games/' + game.gameId)">
 			<div class="gamesDetails">
-				<span class="gamesTitle">{{ game.title }}</span>
-				<span class="gamesGenre">{{ game.genre }}</span>
-				<span class="gamesPrice">{{ game.price }}</span>
+				<span class="gamesTitle">{{ game.gameName }}</span>
+				<span class="gamesGenre">{{ game.gameTag }}</span>
+				<span class="gamesPrice">{{ game.gamePrice ? "$ " + game.gamePrice.toFixed(2) : "Free" }}</span>
 			</div>
 		</div>
 	</TransitionGroup>
