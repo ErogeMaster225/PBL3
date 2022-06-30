@@ -11,22 +11,76 @@
 			},
 			body: JSON.stringify({ userName: username, dateOfBirth: dob, email: newemail, phone: newphone }),
 		});
+		return response;
 	};
-
 	const profileUpdate = () => {
-		let dob = document.getElementById("phone_input").value;
+		let dob = new Date(document.getElementById("date_input").value);
+		dob = dob.toISOString();
 		let email = document.getElementById("email_input").value;
 		let phone = document.getElementById("phone_input").value;
-		profileUpdateRequest(store.username, dob, email, phone).then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			throw new Error(response.statusText);
-		}).then(data => {
-			store.dob = dob;
-			store.email = email;
-			store.phone = phone;
+		if (document.getElementById("avatar_input").files.length)
+			updateAvatarRequest(document.getElementById("avatar_input").files[0]).then((response) => {
+				if (response.ok) {
+					getUserInfo();
+				}
+				throw new Error(response.statusText);
+			});
+		profileUpdateRequest(store.username, dob, email, phone)
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				store.dob = data.dateOfBirth.substring(0, 10);
+				store.email = data.email;
+				store.phone = data.phone;
+			});
+	};
+	const pickAvatar = () => {
+		document.getElementById("avatar_input").click();
+	};
+	const updateAvatarRequest = (file) => {
+		const body = new FormData();
+		body.append("file", file);
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/User/userImage?userName=" + store.username, {
+			body,
+			headers: {
+				Accept: "*/*",
+				Authorization: "Bearer " + store.token,
+			},
+			method: "PUT",
 		});
+		return response;
+	};
+	const getUserInfoRequest = (username, token) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/User/userHomepage?userName=" + username, {
+			headers: {
+				Accept: "text/plain",
+				Authorization: "bearer " + token,
+			},
+		});
+		return response;
+	};
+	const getUserInfo = () => {
+		getUserInfoRequest(store.username, store.token)
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				store.balance = data.userWallet;
+				store.email = data.email;
+				store.dob = data.dateOfBirth.substring(0, 10);
+				store.phone = data.phone;
+				if (data.imageUri != "https://vaporwavegameimage.blob.core.windows.net/images") store.avatar = data.imageUri;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 </script>
 
@@ -37,7 +91,8 @@
 				<i class="fa-regular fa-circle-check fa-2x" @click="profileUpdate()"></i>
 			</div>
 			<div class="profileImgWrapper">
-				<div class="profileImg" :style="{ '--avatar': 'url(' + store.avatar + ')' }">
+				<div class="profileImg" :style="{ '--avatar': 'url(' + store.avatar + ')' }" @click="pickAvatar">
+					<input type="file" name="avatar_input" id="avatar_input" />
 					<div class="editProfilePic"><i class="fa-solid fa-2x fa-paintbrush"></i></div>
 				</div>
 				<div class="profileTitle">
@@ -72,7 +127,7 @@
 				</div>
 				<div class="profileEditGroup">
 					<span>DOB</span>
-					<input id="date_input" type="date" required />
+					<input id="date_input" type="date" required :value="store.dob" />
 				</div>
 			</div>
 		</div>
@@ -183,5 +238,8 @@
 		width: 250px;
 		height: 3em;
 		border-radius: 8px;
+	}
+	#avatar_input {
+		display: none;
 	}
 </style>

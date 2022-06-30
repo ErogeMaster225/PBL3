@@ -31,7 +31,7 @@
 			.then((data) => {
 				store.balance = data.userWallet;
 				store.email = data.email;
-				store.dob = data.dateOfBirth;
+				store.dob = data.dateOfBirth.substring(0, 10);
 				store.phone = data.phone;
 				if (data.imageUri != "https://vaporwavegameimage.blob.core.windows.net/images") store.avatar = data.imageUri;
 			})

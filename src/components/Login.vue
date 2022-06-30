@@ -28,7 +28,8 @@
 			.then((data) => {
 				store.token = data;
 				store.username = username;
-				store.username == 'admin' ? router.push("/admin") : router.push("/");
+				document.getElementById("password_field").value = "";
+				store.username == "admin" ? router.push("/admin") : router.push("/");
 			})
 			.catch((err) => {
 				console.log(err);
