@@ -7,7 +7,6 @@
 	const changeActiveGenre = (event) => {
 		if (document.getElementById("activeGenre")) document.getElementById("activeGenre").setAttribute("id", "");
 		event.target.setAttribute("id", "activeGenre");
-		console.log(event.target.textContent);
 		getGamesRequest(event.target.textContent)
 			.then((response) => {
 				if (response.ok) {
@@ -27,40 +26,46 @@
 		});
 		return response;
 	};
+	const gamesSearchRequest = (query) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Game/search?gameName=" +query, {
+			headers: {
+				Accept: "text/plain",
+			},
+		});
+		return response;
+	};
+	let typingTimer;
+	const gamesSearch = () => {
+		clearTimeout(typingTimer);
+		if (document.getElementById("search_box").value) {
+			typingTimer = setTimeout(doneTyping, 750);
+		} else {
+			getGamesRequest("All")
+				.then((response) => {
+					if (response.ok) {
+						return response.json();
+					}
+					throw new Error(response.statusText);
+				})
+				.then((data) => {
+					gamestore.gamesList = data;
+				});
+		}
+	};
+	function doneTyping() {
+		gamesSearchRequest(document.getElementById("search_box").value)
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				gamestore.gamesList = data;
+			});
+	}
 	onMounted(() => {
 		document.querySelector(".genreList a:first-child").setAttribute("id", "activeGenre");
-		/* gamestore.gamesList = reactive([
-			{
-				background: "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
-				title: "Hollow Knight",
-				genre: "Indie",
-				price: "$ 9.99",
-			},
-			{
-				background: "https://media.rawg.io/media/crop/600/400/games/b72/b7233d5d5b1e75e86bb860ccc7aeca85.jpg",
-				title: "Apex Legends",
-				genre: "Shooter",
-				price: "Free",
-			},
-			{
-				background: "https://media.rawg.io/media/crop/600/400/games/d1f/d1f872a48286b6b751670817d5c1e1be.jpg",
-				title: "Transistor",
-				genre: "RPG",
-				price: "$ 12.99",
-			},
-			{
-				background: "https://media.rawg.io/media/crop/600/400/games/713/713269608dc8f2f40f5a670a14b2de94.jpg",
-				title: "Stardew Valley",
-				genre: "Indie",
-				price: "$ 7.99",
-			},
-			{
-				background: "https://images.igdb.com/igdb/image/upload/t_original/ar88z.jpg",
-				title: "Moonlighter",
-				genre: "Indie",
-				price: "$ 6.99",
-			},
-		]); */
 		getGamesRequest("All")
 			.then((response) => {
 				if (response.ok) {
@@ -78,7 +83,7 @@
 		<div class="searchBar">
 			<div class="searchBox">
 				<div class="searchIcon"><i class="fa-light fa-magnifying-glass"></i></div>
-				<input type="search" name="searchField" id="search" placeholder="What are you looking for?" />
+				<input type="search" name="searchField" id="search_box" placeholder="What are you looking for?" @keyup="gamesSearch" />
 			</div>
 			<div class="genreList">
 				<a class="genre" href="#" v-for="genre in genreList" :key="genre" @click="changeActiveGenre">{{ genre }}</a>

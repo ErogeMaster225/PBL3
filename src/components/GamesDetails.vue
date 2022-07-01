@@ -45,7 +45,7 @@
 
 <template>
 	<div class="gamesPanel">
-		<div class="gamesBanner" :style="{ '--banner': 'url(' + gamesStore.gamesDetails.path[1] + ')' }">
+		<div class="gamesBanner" :style="{ '--banner': 'url(' + gamesStore.gamesDetails.path[0] + ')' }">
 			<div class="backButton" @click="router.push('/')"><i class="fa-regular fa-arrow-left"></i> Go back to store</div>
 			<div class="gamesTitle">{{ gamesStore.gamesDetails.name }}</div>
 			<div class="gamesDescription">Moonlighter is an Action RPG with rogue-lite elements following the everyday routines of Will, an adventurous shopkeeper that dreams of becoming a hero.</div>
