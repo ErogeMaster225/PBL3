@@ -2,10 +2,13 @@
 	import { useUserStore } from "@/stores/userStore";
 	import { onMounted } from "vue";
 	import { useRouter, useRoute } from "vue-router";
+	import { useGamesStore } from "@/stores/gamesStore";
+	const gamestore = useGamesStore();
 	const router = useRouter();
 	const store = useUserStore();
 	const logOut = () => {
 		store.$reset();
+		gamesstore.$reset();
 		router.push("/");
 	};
 	const logIn = () => {

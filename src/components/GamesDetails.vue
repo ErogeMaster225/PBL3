@@ -2,7 +2,9 @@
 	import { onMounted, reactive } from "vue";
 	import { useRouter, useRoute } from "vue-router";
 	import { useGamesStore } from "../stores/gamesStore";
+	import { useUserStore } from "../stores/userStore";
 	const gamesStore = useGamesStore();
+	const userstore = useUserStore();
 	const router = useRouter();
 	const route = useRoute();
 	const gamesDetailsRequest = (gamesid) => {
@@ -26,6 +28,23 @@
 				console.log(data);
 			});
 	};
+	const buyGamesRequest = () => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Receipt/" + userstore.username + "/" + gamesStore.gamesDetails.name, {
+			headers: {
+				Accept: "*/*",
+				Authorization: "Bearer " + userstore.token,
+			},
+			method: "POST",
+		});
+	};
+	const buyGames = () => {
+		buyGamesRequest().then((response) => {
+			if (response.ok) {
+				return response.json();
+			}
+			throw new Error(response.statusText);
+		});
+	};
 	onMounted(() => {
 		getGamesDetails();
 	});
@@ -36,8 +55,8 @@
 		<div class="gamesBanner" :style="{ '--banner': 'url(' + gamesStore.gamesDetails.path[0] + ')' }">
 			<div class="backButton" @click="router.push('/')"><i class="fa-regular fa-arrow-left"></i> Go back to store</div>
 			<div class="gamesTitle">{{ gamesStore.gamesDetails.name }}</div>
-			<div class="gamesDescription">Moonlighter is an Action RPG with rogue-lite elements following the everyday routines of Will, an adventurous shopkeeper that dreams of becoming a hero.</div>
-			<div class="buyButton">{{ gamesStore.gamesDetails.price ? "Buy for $" + gamesStore.gamesDetails.price : "Get it for FREE" }}</div>
+			<div class="gamesDescription">{{ gamesStore.gamesDetails.description }}</div>
+			<div class="buyButton" @click="buyGames">{{ gamesStore.gamesDetails.price ? "Buy for $" + gamesStore.gamesDetails.price : "Get it for FREE" }}</div>
 			<div class="wishlistButton"><i class="fa-regular fa-heart"></i> Add to wishlist</div>
 		</div>
 		<div class="detailsDescription">
@@ -123,6 +142,10 @@
 		width: 35%;
 		text-align: justify;
 		color: #c7cbec;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		display: -webkit-box;
 	}
 	.gamesBanner .buyButton {
 		position: absolute;

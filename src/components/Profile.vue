@@ -82,6 +82,18 @@
 				console.log(err);
 			});
 	};
+	const addFundsRequesst = (username, money) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/User/Wallet", {
+			body: JSON.stringify({ userName: username, cast: money }),
+			headers: {
+				Accept: "text/plain",
+				Authorization: "Bearer " + store.token,
+				"Content-Type": "application/json",
+			},
+			method: "POST",
+		});
+		return response;
+	};
 </script>
 
 <template>
