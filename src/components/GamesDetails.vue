@@ -5,18 +5,6 @@
 	const gamesStore = useGamesStore();
 	const router = useRouter();
 	const route = useRoute();
-	/* const gamesdetails = reactive({
-		background: "https://images.igdb.com/igdb/image/upload/t_original/ar88z.jpg",
-		title: "Moonlighter",
-		genre: "Action, Adventure, Indie, RPG",
-		developer: "Digital Sun",
-		publisher: "11 bit studios",
-		releasedate: "May 29, 2018",
-		price: "$ 6.99",
-		rating: "4.8",
-		sypnosis:
-			"During a long-passed archaeological excavation, a set of Gates were discovered. People quickly realized that these ancient passages lead to different realms and dimensions - providing brave and reckless adventurers with treasures beyond measure. Rynoka, a small commercial village, was founded near the excavation site providing refuge and a place for adventurers to sell their hard-earned riches. \n \n Moonlighter is an Action RPG with rogue-lite elements following the everyday routines of Will, an adventurous shopkeeper that dreams of becoming a hero.",
-	}); */
 	const gamesDetailsRequest = (gamesid) => {
 		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Game/gameId?gameId=" + gamesid, {
 			headers: {

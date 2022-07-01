@@ -44,58 +44,6 @@
 			<h3>Users</h3>
 			<h6>{{ store.userlist.length }} users</h6>
 			<UserCard></UserCard>
-			<!-- <table class="meta">
-				<tr>
-					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
-					<td>SakuraFrost225</td>
-					<td>nguyentrongsang1234@gmail.com</td>
-					<td>(+84) 974035452</td>
-					<td>
-						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
-					</td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
-					<td>Emo Kid</td>
-					<td>emokid@gmail.com</td>
-					<td>(+84) 985249331</td>
-					<td>
-						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
-					</td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
-					<td>C91Huyhehe</td>
-					<td>huyhehec91@gmail.com</td>
-					<td>(+84) 394425937</td>
-					<td>
-						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
-					</td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
-					<td>HitoriHellen</td>
-					<td>HitoriHellen@gmail.com</td>
-					<td>(+84) 369475518</td>
-					<td>
-						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
-					</td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-				<tr>
-					<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
-					<td>SakuraFrost225</td>
-					<td>nguyentrongsang1234@gmail.com</td>
-					<td>(+84) 974035452</td>
-					<td>
-						<div class="borderWrap"><i class="fa-solid fa-circle-small"></i> Active</div>
-					</td>
-					<td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-				</tr>
-			</table> -->
 		</div>
 	</div>
 </template>

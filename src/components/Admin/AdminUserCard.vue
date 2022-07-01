@@ -5,7 +5,7 @@
 <template>
 	<TransitionGroup class="meta" tag="table" name="card-stagger" :style="{ '--total': userstore.userlist.length }">
 		<tr v-for="(user, index) in userstore.userlist" :key="index" :style="{ '--index': index }">
-			<td><img src="https://osu.ppy.sh/images/layout/avatar-guest@2x.png" /></td>
+			<td><img :src="user.imageName ? 'https://vaporwavegameimage.blob.core.windows.net/images/' + user.imageName : 'https://osu.ppy.sh/images/layout/avatar-guest@2x.png'" /></td>
 			<td>{{ user.userName }}</td>
 			<td>{{ user.email ? user.email : "¯\\_(ツ)_/¯" }}</td>
 			<td>{{ user.phone ? user.email : "¯\\_(ツ)_/¯" }}</td>
@@ -63,5 +63,26 @@
 	}
 	.fa-circle-small {
 		color: #30d18d;
+	}
+	.card-stagger-move {
+		transition: opacity 0.5s linear, transform 0.5s ease-in-out;
+	}
+	.card-stagger-leave-active {
+		transition: opacity 0.4s linear, transform 0.4s cubic-bezier(0.5, 0, 0.7, 0.4);
+		transition-delay: calc(0.1s * (var(--total) - var(--i)));
+	}
+	.card-stagger-enter-active {
+		transition: opacity 0.5s linear, transform 0.5s cubic-bezier(0.2, 0.5, 0.1, 1);
+		transition-delay: calc(0.1s * var(--index));
+	}
+	.card-stagger-enter-from,
+	.card-stagger-leave-to {
+		opacity: 0;
+	}
+	.card-stagger-enter-from {
+		transform: translateX(-4em);
+	}
+	.card-stagger-leave-to {
+		transform: translateX(4em);
 	}
 </style>
