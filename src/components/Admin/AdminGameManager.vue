@@ -1,6 +1,8 @@
 <script setup>
 	import { onMounted, reactive } from "vue";
+	import { useGamesStore } from "@/stores/gamesStore";
 	import AdminGamesCard from "@/components/Admin/AdminGamesCard.vue";
+	const gamestore = useGamesStore();
 	const getGamesRequest = (genre) => {
 		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Game/" + genre, {
 			headers: {
@@ -74,7 +76,7 @@
 		<div class="store">
 			<div class="headerWrapper">
 				<h3>Catalog Manager</h3>
-				<div class="addGames"><i class="fa-solid fa-plus"></i> Add Games</div>
+				<div class="addGames" @click="$router.push('/admin/games/create')"><i class="fa-solid fa-plus"></i> Add Games</div>
 			</div>
 			<AdminGamesCard></AdminGamesCard>
 		</div>
@@ -140,6 +142,7 @@
 		background-color: hsl(251, 100%, 76%);
 		padding: 10px 20px;
 		border-radius: 10px;
+		cursor: pointer;
 	}
 	.games .optionsBtn {
 		position: absolute;

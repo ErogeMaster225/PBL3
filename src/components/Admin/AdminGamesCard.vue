@@ -1,11 +1,50 @@
 <script setup>
 	import { useGamesStore } from "@/stores/gamesStore";
+	import { useUserStore } from "@/stores/userStore";
+	import { useRouter, useRoute } from "vue-router";
+	const router = useRouter();
+	const userstore = useUserStore();
 	const gamestore = useGamesStore();
+	const getGamesRequest = (genre) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Game/" + genre, {
+			headers: {
+				Accept: "text/plain",
+			},
+		});
+		return response;
+	};
+	const deleteGamesRequest = (gameid) => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Game/" + gameid, {
+			headers: {
+				Accept: "*/*",
+				Authorization: "Bearer " + userstore.token,
+			},
+			method: "DELETE",
+		});
+		return response;
+	};
+	const deleteGames = (gameid) => {
+		deleteGamesRequest(gameid).then((response) => {
+			if (response.ok) {
+				getGamesRequest("All")
+					.then((response) => {
+						if (response.ok) {
+							return response.json();
+						}
+						throw new Error(response.statusText);
+					})
+					.then((data) => {
+						gamestore.gamesList = data;
+					});
+			}
+			throw new Error(response.statusText);
+		});
+	};
 </script>
 <template>
 	<TransitionGroup class="gamesGrid" tag="div" name="card-slide" :style="{ '--total': gamestore.gamesList.length }">
-		<div v-for="(game, index) in gamestore.gamesList" :key="index" class="games" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.gameImageUrl + ')', '--index': index }" @click="$router.push('/games/' + game.gameId)">
-			<div class="optionsBtn"><i class="fa-solid fa-3x fa-square-pen"></i></div>
+		<div v-for="(game, index) in gamestore.gamesList" :key="index" class="games" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.gameImageUrl + ')', '--index': index }">
+			<div class="optionsBtn"><i class="fa-solid fa-3x fa-square-pen" @click="router.push('games/' + game.gameId + '/edit')"></i><i class="fa-solid fa-3x fa-square-xmark" @click="deleteGames(game.gameId)"></i></div>
 			<div class="gamesDetails">
 				<span class="gamesTitle">{{ game.gameName }}</span>
 				<span class="gamesGenre">{{ game.gameTag }}</span>
@@ -69,6 +108,9 @@
 		position: absolute;
 		bottom: 0.5em;
 		right: 0.75em;
+	}
+	.optionsBtn i {
+		margin: 0px 10px;
 	}
 	.card-slide-move {
 		transition: opacity 0.5s linear, transform 0.5s ease-in-out;

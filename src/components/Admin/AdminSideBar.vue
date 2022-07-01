@@ -1,11 +1,14 @@
 <script setup>
 	import { useUserStore } from "@/stores/userStore";
+	import { useGamesStore } from "@/stores/gamesStore";
 	import { onMounted } from "vue";
 	import { useRouter, useRoute } from "vue-router";
 	const router = useRouter();
 	const store = useUserStore();
+	const gamesstore = useGamesStore();
 	const logOut = () => {
 		store.$reset();
+		gamesstore.$reset();
 		router.push("/");
 	};
 	const logIn = () => {
@@ -51,7 +54,7 @@
 				<span>Games Store</span>
 			</div>
 		</div>
-		<div class="userDetails" @click="$router.push('/profile')">
+		<div class="userDetails">
 			<img :src="store.avatar" alt="" />
 			<div class="details">
 				<div>{{ store.username }}</div>
