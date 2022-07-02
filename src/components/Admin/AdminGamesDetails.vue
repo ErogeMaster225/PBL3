@@ -66,7 +66,7 @@
 <template>
 	<div class="gamesPanel">
 		<div class="gamesBanner" :style="{ '--banner': 'url(' + gamesStore.gamesDetails.path[0] + ')' }">
-			<div class="backButton" @click="gamesUpdate"><i class="fa-regular fa-arrow-left"></i> Go back to store</div>
+			<div class="backButton" @click="gamesUpdate"><i class="fa-regular fa-arrow-left"></i> Go back</div>
 			<div id="gamesTitle" class="gamesTitle" contenteditable="true" spellcheck="false">{{ gamesStore.gamesDetails.name }}</div>
 			<div class="gamesDescription">{{ gamesStore.gamesDetails.description }}</div>
 			<div id="price" class="buyButton" contenteditable="true">{{ gamesStore.gamesDetails.price ? "Buy for $" + gamesStore.gamesDetails.price : "Get it for FREE" }}</div>

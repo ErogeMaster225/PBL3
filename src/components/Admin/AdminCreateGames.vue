@@ -83,7 +83,7 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 	.gamesPanel {
 		position: fixed;
 		top: 0px;
