@@ -1,32 +1,38 @@
-<!-- <script setup>
+<script setup>
 	import { onMounted, reactive } from "vue";
+	import { useGamesStore } from "../stores/gamesStore";
+	import { useUserStore } from "../stores/userStore";
 	const viewMode = ["Grid", "List", "Details"];
-	const gamesdb = reactive([
-		{
-			background: "https://mhsnews.org/wp-content/uploads/2021/01/hollowknight-900x506.jpg",
-			title: "Hollow Knight",
-			genre: "Indie",
-			price: "$ 9.99",
-		},
-		{
-			background: "https://media.rawg.io/media/crop/600/400/games/d1f/d1f872a48286b6b751670817d5c1e1be.jpg",
-			title: "Transistor",
-			genre: "RPG",
-			price: "$ 12.99",
-		},
-		{
-			background: "https://images.igdb.com/igdb/image/upload/t_original/ar88z.jpg",
-			title: "Moonlighter",
-			genre: "Indie",
-			price: "$ 6.99",
-		},
-	]);
+	const gamesStore = useGamesStore();
+	const userstore = useUserStore();
+	const getLibraryRequest = () => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Library/getLibrary?userName=" + userstore.username, {
+			headers: {
+				Accept: "text/plain",
+				Authorization: "Bearer " + userstore.token,
+			},
+		});
+		return response;
+	};
+	const getLibrary = () => {
+		getLibraryRequest()
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				gamesStore.library = data.filter((v, i, a) => a.findIndex((v2) => v2.gameId === v.gameId) === i);
+			});
+	};
 	function changeViewMode(e) {
-		document.getElementById('activeMode').removeAttribute('id');
-		e.target.setAttribute('id', 'activeMode');
+		document.getElementById("activeMode").removeAttribute("id");
+		e.target.setAttribute("id", "activeMode");
 	}
 	onMounted(() => {
-		document.querySelector('.viewMode a:first-child').setAttribute('id', 'activeMode');
+		document.querySelector(".viewMode a:first-child").setAttribute("id", "activeMode");
+		getLibrary();
 	});
 </script>
 
@@ -42,15 +48,15 @@
 			</div>
 		</div>
 		<div class="store">
-			<div class="libgamesGrid">
-				<template v-for="game in gamesdb" :game="game" :key="game.title">
-					<div class="libgames" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.background + ')' }" @click="$router.push('/games')">
+			<TransitionGroup class="gamesGrid" tag="div" name="card-slide" :style="{ '--total': gamesStore.library.length }">
+				<template v-for="game in gamesStore.library" :game="game" :key="game.gameName">
+					<div class="libgames" :style="{ '--aspect-ratio': 3 / 2, 'background-image': 'url(' + game.gameImageUrl + ')' }" @click="$router.push('/games/' + game.gameId)">
 						<div class="libgamesDetails">
-							<span class="libgamesTitle">{{ game.title }}</span>
+							<span class="libgamesTitle">{{ game.gameName }}</span>
 						</div>
 					</div>
 				</template>
-			</div>
+			</TransitionGroup>
 		</div>
 	</div>
 </template>
@@ -167,4 +173,3 @@
 		margin-left: 15px;
 	}
 </style>
- -->

@@ -288,7 +288,7 @@
 		color: #00f5a7;
 	}
 	.modal {
-		display: block;
+		display: none;
 		position: fixed;
 		z-index: 2;
 		left: 0;

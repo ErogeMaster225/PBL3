@@ -1,5 +1,5 @@
 <script setup>
-	import { onMounted, reactive } from "vue";
+	import { onMounted, reactive, onBeforeMount } from "vue";
 	import { useRouter, useRoute } from "vue-router";
 	import { useGamesStore } from "../stores/gamesStore";
 	import { useUserStore } from "../stores/userStore";
@@ -40,13 +40,42 @@
 	const buyGames = () => {
 		buyGamesRequest().then((response) => {
 			if (response.ok) {
+				gamesStore.gamesDetails.isPayed = true;
 				return response.json();
 			}
 			throw new Error(response.statusText);
 		});
 	};
+	const getLibraryRequest = () => {
+		const response = fetch("https://vaporwaveapi.azurewebsites.net/api/Library/getLibrary?userName=" + userstore.username, {
+			headers: {
+				Accept: "text/plain",
+				Authorization: "Bearer " + userstore.token,
+			},
+		});
+		return response;
+	};
+	const getLibrary1 = () => {
+		getLibraryRequest()
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.statusText);
+			})
+			.then((data) => {
+				gamesStore.library = data.filter((v, i, a) => a.findIndex((v2) => v2.gameId === v.gameId) === i);
+				gamesStore.library.forEach(gamelib => {
+					if (gamelib.gameId == route.params.id) gamesStore.gamesDetails.isPayed = true;
+				})
+			});
+	};
+	onBeforeMount(() => {
+		gamesStore.gamesDetails.isPayed = false;
+	})
 	onMounted(() => {
 		getGamesDetails();
+		getLibrary1();
 	});
 </script>
 
@@ -56,7 +85,7 @@
 			<div class="backButton" @click="router.push('/')"><i class="fa-regular fa-arrow-left"></i> Go back to store</div>
 			<div class="gamesTitle">{{ gamesStore.gamesDetails.name }}</div>
 			<div class="gamesDescription">{{ gamesStore.gamesDetails.description }}</div>
-			<div class="buyButton" @click="buyGames">{{ gamesStore.gamesDetails.price ? "Buy for $" + gamesStore.gamesDetails.price : "Get it for FREE" }}</div>
+			<div id="price" class="buyButton" @click="gamesStore.gamesDetails.isPayed ? null : buyGames()" :class="{ owned: gamesStore.gamesDetails.isPayed }">{{ gamesStore.gamesDetails.isPayed ? "Owned" : gamesStore.gamesDetails.price ? "Buy for $" + gamesStore.gamesDetails.price : "Get it for FREE" }}</div>
 			<div class="wishlistButton"><i class="fa-regular fa-heart"></i> Add to wishlist</div>
 		</div>
 		<div class="detailsDescription">
@@ -153,10 +182,14 @@
 		left: 50px;
 		background-color: #fe8383;
 		font-weight: 500;
-		display: inline-block;
+		display: flex;
 		padding: 15px 30px;
 		border-radius: 5px;
 		font-family: "Roboto";
+		width: 170px;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
 	}
 	.gamesBanner .wishlistButton {
 		position: absolute;
@@ -166,6 +199,7 @@
 		display: inline-block;
 		padding: 15px 30px;
 		color: #c7cbec;
+		cursor: pointer;
 	}
 	.gamesBanner .wishlistButton i {
 		color: #f2888b;
@@ -216,5 +250,8 @@
 	td a,
 	a:hover {
 		color: rgb(220, 228, 236);
+	}
+	.gamesPanel .gamesBanner .owned {
+		background-color: #f45757;
 	}
 </style>

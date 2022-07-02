@@ -13,8 +13,10 @@ export const useGamesStore = defineStore("games", {
 				publisher: "",
 				releaseDate: "",
 				website: "",
+				isPayed: false,
 			},
 			gamesList: [],
+			library: [],
 		};
 	},
 	actions: () => {},

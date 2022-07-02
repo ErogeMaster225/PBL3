@@ -166,10 +166,13 @@
 		left: 50px;
 		background-color: #fe8383;
 		font-weight: 500;
-		display: inline-block;
+		display: flex;
 		padding: 15px 30px;
 		border-radius: 5px;
 		font-family: "Roboto";
+		width: 170px;
+		align-items: center;
+		justify-content: center;
 	}
 	.gamesBanner .wishlistButton {
 		position: absolute;
